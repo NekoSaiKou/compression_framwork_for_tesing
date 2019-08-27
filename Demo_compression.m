@@ -2,14 +2,13 @@
 %%% This is the testing demo for gray image (Gaussian) denoising.
 %%% Training data: 400 images of size 180X180
 
-run('D:\Davey\matconvnet-1.0-beta23\matlab\vl_setupnn.m') ;
-% clear; clc;
+run('F:\soft\matlab_extend\matconvnet-1.0-beta25\matlab\vl_setupnn.m') ;
+clear; clc;
 addpath('utilities');
-%folderTest  = 'Train400';
 
 
 showResult  = 1;
-useGPU      = 1;
+useGPU      = 0;
 pauseTime   = 1;
 
 JPEG_Quality = 50;   
@@ -17,9 +16,11 @@ net1.layers = {};
 net2.layers = {};
 %load ComCNN
 load(fullfile('model','ComCNN_QF=50.mat'));
+net = vl_simplenn_tidy(net);
 net1.layers = net.layers(1:end-1);
 %load RecCNN
 load(fullfile('model','RecCNN_QF=50.mat'));
+net = vl_simplenn_tidy(net);
 net2.layers = net.layers(1:end-1);
 
 %%% move to gpu
@@ -30,7 +31,7 @@ end
 
 %read image
 % label = imread('butterfly.bmp'); 
-label = imread('Lena.png');
+label = imread('test.png');
 
 if size(label,3)>1
     label = rgb2gray(label);
